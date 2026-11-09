@@ -1,20 +1,23 @@
 <view class="page">
   <view class="hero">
     <view class="couple">{{profile.me}} <text>♥</text> {{profile.partner}}</view>
-    <view class="hero-label">我们在一起的</view>
-    <view class="days">{{days}}<text> 天</text></view>
-    <view class="date">从 {{profile.startDate}} 开始</view>
+    <view class="hero-label">{{days ? '我们在一起的' : '从哪一天开始我们的故事？'}}</view>
+    <view class="days" wx:if="{{days}}">{{days}}<text> 天</text></view>
+    <view class="date" wx:if="{{days}}">从 {{profile.startDate}} 开始</view>
+    <view class="date setup" wx:else bindtap="goUs">去设置恋爱日期 →</view>
   </view>
   <view class="card anniversary row space-between">
-    <view><view class="pill">下一个纪念日</view><view class="anniv-title">我们的周年纪念</view></view>
-    <view class="count"><text>{{countdown}}</text> 天</view>
+    <view><view class="pill">下一个纪念日</view><view class="anniv-title">{{anniversary ? '我们的纪念日' : '设置一个特别的日子'}}</view></view>
+    <view class="count" wx:if="{{anniversary}}"><text>{{anniversary.days}}</text> 天</view><view wx:else bindtap="goUs">设置 ›</view>
   </view>
   <view class="quick row">
     <view class="quick-item" bindtap="goTimeline"><text>✎</text><view>记录今天</view></view>
     <view class="quick-item" bindtap="goPlans"><text>☆</text><view>新的计划</view></view>
   </view>
   <view class="section-title">最近的时光</view>
+  <view class="empty home-empty" wx:if="{{!moments.length}}" bindtap="goTimeline">还没有回忆，去记录第一件小事 →</view>
   <view class="mini card" wx:for="{{moments}}" wx:key="id"><view class="row space-between"><text class="mini-title">{{item.mood}} {{item.title}}</text><text class="muted">{{item.date}}</text></view><view class="mini-content">{{item.content}}</view></view>
   <view class="section-title">接下来一起</view>
+  <view class="empty home-empty" wx:if="{{!pending.length}}" bindtap="goPlans">写下一件想一起做的事 →</view>
   <view class="plan-line" wx:for="{{pending}}" wx:key="id"><view class="dot"></view><view class="grow"><view>{{item.title}}</view><text class="muted">{{item.date}} · {{item.category}}</text></view><text>›</text></view>
 </view>

@@ -10,7 +10,7 @@ page { background: #fffaf8; color: #342c2a; font-family: -apple-system, BlinkMac
 .pill { display: inline-flex; padding: 10rpx 20rpx; border-radius: 999rpx; background: #fff0f2; color: #d75c75; font-size: 24rpx; }
 .empty { padding: 80rpx 20rpx; text-align: center; color: #aa9c98; }
 .overlay { position: fixed; z-index: 10; inset: 0; display: flex; align-items: flex-end; background: rgba(37, 26, 24, .38); }
-.sheet { width: 100%; padding: 38rpx 30rpx calc(38rpx + env(safe-area-inset-bottom)); border-radius: 36rpx 36rpx 0 0; background: #fff; box-sizing: border-box; }
+.sheet { width: 100%; max-height: 90vh; overflow-y: auto; padding: 38rpx 30rpx calc(38rpx + env(safe-area-inset-bottom)); border-radius: 36rpx 36rpx 0 0; background: #fff; box-sizing: border-box; }
 .sheet-title { margin-bottom: 28rpx; font-size: 36rpx; font-weight: 700; }
 .input { margin-bottom: 22rpx; padding: 26rpx; border-radius: 20rpx; background: #faf6f4; font-size: 28rpx; }
 .row { display: flex; align-items: center; }

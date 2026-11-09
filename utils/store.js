@@ -1,31 +1,23 @@
 const KEYS = { moments: 'love_moments', plans: 'love_plans', profile: 'love_profile' }
-
-const demo = {
-  profile: { me: '小满', partner: '阿屿', startDate: '2025-02-14', anniversary: '2027-02-14' },
-  moments: [
-    { id: 1, date: '2026-11-02', mood: '🥰', title: '秋天的第一次散步', content: '路边的桂花很香，我们绕着湖走了两圈。' },
-    { id: 2, date: '2026-10-18', mood: '🎂', title: '一起过生日', content: '偷偷准备的小蛋糕没有被提前发现。' }
-  ],
-  plans: [
-    { id: 1, title: '去海边看一次日出', category: '旅行', date: '2027-01-01', done: false },
-    { id: 2, title: '一起做一顿晚餐', category: '日常', date: '2026-11-16', done: false },
-    { id: 3, title: '拍一组秋日合照', category: '约会', date: '2026-10-20', done: true }
-  ]
-}
-
-function seed() {
-  if (!wx.getStorageSync(KEYS.profile)) wx.setStorageSync(KEYS.profile, demo.profile)
-  if (!wx.getStorageSync(KEYS.moments)) wx.setStorageSync(KEYS.moments, demo.moments)
-  if (!wx.getStorageSync(KEYS.plans)) wx.setStorageSync(KEYS.plans, demo.plans)
-}
-
-function get(name) { return wx.getStorageSync(KEYS[name]) || demo[name] }
+const defaults = { profile: { me: '我', partner: '你', startDate: '', anniversary: '' }, moments: [], plans: [] }
+function seed() { Object.keys(KEYS).forEach(name => { if (wx.getStorageSync(KEYS[name]) === '') wx.setStorageSync(KEYS[name], defaults[name]) }) }
+function get(name) { const value = wx.getStorageSync(KEYS[name]); return value === '' || value == null ? defaults[name] : value }
 function set(name, value) { wx.setStorageSync(KEYS[name], value) }
-function daysBetween(from, to = new Date()) {
-  const start = new Date(`${from}T00:00:00`)
-  const end = typeof to === 'string' ? new Date(`${to}T00:00:00`) : to
-  return Math.max(1, Math.floor((end - start) / 86400000) + 1)
+function today() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
+function dayNumber(date) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null
+  const parts = date.split('-').map(Number); const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]))
+  if (d.getUTCFullYear() !== parts[0] || d.getUTCMonth() !== parts[1] - 1 || d.getUTCDate() !== parts[2]) return null
+  return Math.floor(d.getTime() / 86400000)
 }
-
-module.exports = { seed, get, set, daysBetween }
-
+function daysTogether(date, now = today()) { const start = dayNumber(date); const end = dayNumber(now); return start == null || end == null || start > end ? 0 : end - start + 1 }
+function nextAnniversary(date, now = today()) {
+  if (dayNumber(date) == null || dayNumber(now) == null) return null
+  const parts = date.split('-').map(Number); const year = Number(now.slice(0, 4))
+  // 闰年 2 月 29 日在非闰年按 2 月 28 日提醒。
+  function inYear(y) { const month = parts[1]; const day = Math.min(parts[2], new Date(Date.UTC(y, month, 0)).getUTCDate()); return `${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` }
+  let next = inYear(year); if (next < now) next = inYear(year + 1)
+  return { date: next, days: dayNumber(next) - dayNumber(now) }
+}
+function sorted(items) { return items.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id) }
+module.exports = { seed, get, set, today, daysTogether, nextAnniversary, sorted }
