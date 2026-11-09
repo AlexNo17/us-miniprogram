@@ -1,0 +1,5 @@
+{
+  "desc": "仅情侣双方使用的私密空间",
+  "rules": [{ "action": "disallow", "page": "*" }]
+}
+

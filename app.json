@@ -1,0 +1,30 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/timeline/index",
+    "pages/plans/index",
+    "pages/us/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#fffaf8",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "我们俩",
+    "backgroundColor": "#fffaf8",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#8b7d79",
+    "selectedColor": "#e76f87",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "首页" },
+      { "pagePath": "pages/timeline/index", "text": "时光" },
+      { "pagePath": "pages/plans/index", "text": "计划" },
+      { "pagePath": "pages/us/index", "text": "我们" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
+

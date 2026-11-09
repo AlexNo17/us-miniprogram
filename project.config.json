@@ -1,0 +1,17 @@
+{
+  "description": "我们俩恋爱记录小程序",
+  "packOptions": { "ignore": [] },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.5.5",
+  "appid": "touristappid",
+  "projectname": "our-love-miniprogram",
+  "condition": {}
+}
+

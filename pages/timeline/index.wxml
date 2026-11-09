@@ -1,0 +1,11 @@
+<view class="page">
+  <view class="row space-between"><view><view class="title">我们的时光</view><view class="subtitle">每一个普通日子都值得收藏</view></view><button class="add" bindtap="openForm">＋</button></view>
+  <view class="timeline">
+    <view class="entry" wx:for="{{moments}}" wx:key="id">
+      <view class="rail"><view class="mood">{{item.mood}}</view><view class="line"></view></view>
+      <view class="card body"><view class="date">{{item.date}}</view><view class="entry-title">{{item.title}}</view><view class="content">{{item.content}}</view></view>
+    </view>
+  </view>
+  <view class="empty" wx:if="{{!moments.length}}">我们的故事，等待第一条记录。</view>
+</view>
+<view class="overlay" wx:if="{{showForm}}" bindtap="closeForm"><view class="sheet" catchtap="noop"><view class="sheet-title">记录今天</view><input class="input" placeholder="给这一天起个名字" value="{{title}}" data-field="title" bindinput="onInput"/><textarea class="input textarea" placeholder="发生了什么值得记住的事？" value="{{content}}" data-field="content" bindinput="onInput"/><picker mode="date" value="{{date}}" bindchange="onDate"><view class="input">日期：{{date}}</view></picker><button class="btn" bindtap="save">保存回忆</button></view></view>
