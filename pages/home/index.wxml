@@ -1,6 +1,6 @@
 <view class="page">
   <view class="hero">
-    <view class="couple">{{profile.me}} <text>♥</text> {{profile.partner}}</view>
+    <view class="couple">{{profile.me}} · {{profile.partner}}</view>
     <view class="hero-label">{{days ? '我们在一起的' : '从哪一天开始我们的故事？'}}</view>
     <view class="days" wx:if="{{days}}">{{days}}<text> 天</text></view>
     <view class="date" wx:if="{{days}}">从 {{profile.startDate}} 开始</view>
@@ -14,10 +14,10 @@
     <view class="quick-item" bindtap="goTimeline"><text>✎</text><view>记录今天</view></view>
     <view class="quick-item" bindtap="goPlans"><text>☆</text><view>新的计划</view></view>
   </view>
-  <view class="section-title">最近的时光</view>
+  <view class="section-title">最近记录</view>
   <view class="empty home-empty" wx:if="{{!moments.length}}" bindtap="goTimeline">还没有回忆，去记录第一件小事 →</view>
   <view class="mini card" wx:for="{{moments}}" wx:key="id"><view class="row space-between"><text class="mini-title">{{item.mood}} {{item.title}}</text><text class="muted">{{item.date}}</text></view><view class="mini-content">{{item.content}}</view></view>
-  <view class="section-title">接下来一起</view>
+  <view class="section-title">下一件事</view>
   <view class="empty home-empty" wx:if="{{!pending.length}}" bindtap="goPlans">写下一件想一起做的事 →</view>
   <view class="plan-line" wx:for="{{pending}}" wx:key="id"><view class="dot"></view><view class="grow"><view>{{item.title}}</view><text class="muted">{{item.date}} · {{item.category}}</text></view><text>›</text></view>
 </view>
