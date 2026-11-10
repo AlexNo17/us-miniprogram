@@ -9,6 +9,7 @@
     "minified": true
   },
   "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
   "libVersion": "3.5.5",
   "appid": "touristappid",
   "projectname": "our-love-miniprogram",

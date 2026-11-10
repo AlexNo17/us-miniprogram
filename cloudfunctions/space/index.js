@@ -1,0 +1,5 @@
+const cloud = require('wx-server-sdk')
+const { createHandler } = require('./service')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+const handle = createHandler(cloud.database(), () => cloud.getWXContext().OPENID, process.env)
+exports.main = event => handle(event)

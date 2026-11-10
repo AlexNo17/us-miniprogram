@@ -39,5 +39,5 @@
 
 ## 基础校验
 
-安装 Node.js 后，运行 `node tests/store.test.js` 检查日期计算与计划关联流程。
+安装 Node.js 后，运行 `node tests/store.test.js` 和 `node tests/cloud.test.js` 检查日期、计划关联及云函数基础权限。云端部署准备见 [CLOUD_SETUP.md](CLOUD_SETUP.md)，前端目前仍使用本地数据。
 

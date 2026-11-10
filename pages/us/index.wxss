@@ -2,3 +2,4 @@
 .edit-link { margin-top: 24rpx; color: #bd7041; font-size: 25rpx; }.about { line-height: 1.7; font-size: 28rpx; }.field-label { margin: 0 0 10rpx 4rpx; color: #8b7d79; font-size: 24rpx; }
 .record-action { margin-left: 22rpx; color: #bd7041; font-size: 24rpx; }.entry-title { margin-top: 18rpx; font-size: 30rpx; font-weight: 600; }.record-content { margin-top: 12rpx; white-space: pre-wrap; }.about-image { width: 180rpx; height: 180rpx; margin-top: 20rpx; border-radius: 16rpx; }.local-notice { margin-top: 40rpx; text-align: center; line-height: 1.6; }
 .avatar-image { width: 100%; height: 100%; border-radius: 50%; }
+.identity-link { text-align: center; }

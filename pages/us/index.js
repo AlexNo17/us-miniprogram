@@ -1,10 +1,18 @@
 const store = require('../../utils/store')
 const images = require('../../utils/images')
+const cloud = require('../../utils/cloud')
 Page({
   data: { profile: {}, draft: {}, days: 0, momentCount: 0, doneCount: 0, editing: false, today: '', about: [], record: {}, showRecord: false, owners: ['成员 A', '成员 B', '共同'] },
   onShow() { this.refresh() },
   refresh() { const profile = store.get('profile'); this.setData({ profile, about: store.get('about').slice().sort((a, b) => b.updatedAt - a.updatedAt), days: store.daysTogether(profile.startDate), momentCount: store.get('moments').length, doneCount: store.get('plans').filter(x => x.done).length, today: store.today() }) },
   noop() {},
+  getIdentity() {
+    wx.showLoading({ title: '获取中' })
+    cloud.call('identity').then(result => {
+      wx.hideLoading()
+      wx.showModal({ title: '当前微信身份', content: '身份标识仅用于配置两人访问权限，请只发给小程序管理员。', confirmText: '复制标识', success: choice => { if (choice.confirm) wx.setClipboardData({ data: result.openid }) } })
+    }).catch(() => { wx.hideLoading(); wx.showToast({ title: '云函数未部署或连接失败', icon: 'none' }) })
+  },
   edit() { this.setData({ draft: { ...this.data.profile }, editing: true }) },
   close() { this.setData({ editing: false }) },
   input(e) { this.setData({ [`draft.${e.currentTarget.dataset.field}`]: e.detail.value }) },
