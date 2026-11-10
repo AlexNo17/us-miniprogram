@@ -1,9 +1,9 @@
-const KEYS = { moments: 'love_moments', plans: 'love_plans', profile: 'love_profile' }
-const defaults = { profile: { me: '我', partner: '你', startDate: '', anniversary: '' }, moments: [], plans: [] }
+const KEYS = { moments: 'love_moments', plans: 'love_plans', profile: 'love_profile', about: 'love_about', momentDraft: 'love_moment_draft' }
+const defaults = { profile: { me: '我', partner: '你', startDate: '', anniversary: '' }, moments: [], plans: [], about: [], momentDraft: null }
 function seed() { Object.keys(KEYS).forEach(name => { if (wx.getStorageSync(KEYS[name]) === '') wx.setStorageSync(KEYS[name], defaults[name]) }) }
 function get(name) { const value = wx.getStorageSync(KEYS[name]); return value === '' || value == null ? defaults[name] : value }
 function set(name, value) { wx.setStorageSync(KEYS[name], value) }
-function today() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` }
+function today() { const d = new Date(Date.now() + 8 * 3600000); return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}` }
 function dayNumber(date) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null
   const parts = date.split('-').map(Number); const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]))
@@ -19,5 +19,6 @@ function nextAnniversary(date, now = today()) {
   let next = inYear(year); if (next < now) next = inYear(year + 1)
   return { date: next, days: dayNumber(next) - dayNumber(now) }
 }
-function sorted(items) { return items.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id) }
-module.exports = { seed, get, set, today, daysTogether, nextAnniversary, sorted }
+function sorted(items) { return items.slice().sort((a, b) => (b.date || b.createdDate || '').localeCompare(a.date || a.createdDate || '') || (b.createdAt || b.id) - (a.createdAt || a.id)) }
+function id() { return Date.now() * 1000 + Math.floor(Math.random() * 1000) }
+module.exports = { seed, get, set, today, daysTogether, nextAnniversary, sorted, id }
