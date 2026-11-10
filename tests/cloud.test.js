@@ -20,7 +20,11 @@ async function run() {
   assert.strictEqual(created.record.version, 1)
   assert.strictEqual((await handle({ action: 'update', type: 'moment', id: created.record._id, version: 2, data: { title: 'stale' } })).error, 'CONFLICT_OR_NOT_FOUND')
   assert.strictEqual((await handle({ action: 'update', type: 'moment', id: created.record._id, version: 1, data: { title: 'new' } })).ok, true)
-  const unconfigured = createHandler(db, () => 'alice', { MEMBER_A_OPENID: 'alice' })
+  const single = createHandler(db, () => user, { MEMBER_A_OPENID: 'alice' })
+  assert.strictEqual((await single({ action: 'create', type: 'moment', data: { title: 'one member' } })).ok, true)
+  user = 'bob'
+  assert.strictEqual((await single({ action: 'create', type: 'moment', data: { title: 'other' } })).error, 'FORBIDDEN')
+  const unconfigured = createHandler(db, () => 'alice', {})
   assert.strictEqual((await unconfigured({ action: 'list', type: 'moment' })).error, 'FORBIDDEN')
   console.log('云函数身份权限、数据限制和冲突处理通过')
 }

@@ -9,8 +9,9 @@ function createHandler(db, getOpenId, env) {
     if (!openid) return { ok: false, error: 'UNAUTHENTICATED' }
     // This returns only the caller's own identifier, for initial allowlist setup.
     if (event.action === 'identity') return { ok: true, openid }
-    const allowed = [env.MEMBER_A_OPENID, env.MEMBER_B_OPENID]
-    if (allowed.some(x => !x || typeof x !== 'string') || allowed[0] === allowed[1] || !allowed.includes(openid)) return { ok: false, error: 'FORBIDDEN' }
+    const memberA = typeof env.MEMBER_A_OPENID === 'string' ? env.MEMBER_A_OPENID.trim() : ''
+    const memberB = typeof env.MEMBER_B_OPENID === 'string' ? env.MEMBER_B_OPENID.trim() : ''
+    if (!memberA || (openid !== memberA && (!memberB || openid !== memberB))) return { ok: false, error: 'FORBIDDEN' }
     if (!TYPES.includes(event.type)) return { ok: false, error: 'INVALID_TYPE' }
     try {
       if (event.action === 'list') {
