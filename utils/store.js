@@ -1,6 +1,14 @@
 const KEYS = { moments: 'love_moments', plans: 'love_plans', profile: 'love_profile', about: 'love_about', momentDraft: 'love_moment_draft' }
-const defaults = { profile: { me: '我', partner: '你', startDate: '', anniversary: '' }, moments: [], plans: [], about: [], momentDraft: null }
-function seed() { Object.keys(KEYS).forEach(name => { if (wx.getStorageSync(KEYS[name]) === '') wx.setStorageSync(KEYS[name], defaults[name]) }) }
+const defaults = { profile: { me: '我', partner: '你', startDate: '2026-10-18', anniversary: '' }, moments: [], plans: [], about: [], momentDraft: null }
+function seed() {
+  Object.keys(KEYS).forEach(name => { if (wx.getStorageSync(KEYS[name]) === '') wx.setStorageSync(KEYS[name], defaults[name]) })
+  // Apply the agreed date once to existing local profiles; subsequent edits are retained.
+  if (!wx.getStorageSync('love_start_date_20261018_applied')) {
+    const profile = get('profile')
+    set('profile', { ...profile, startDate: '2026-10-18' })
+    wx.setStorageSync('love_start_date_20261018_applied', true)
+  }
+}
 function get(name) { const value = wx.getStorageSync(KEYS[name]); return value === '' || value == null ? defaults[name] : value }
 function set(name, value) { wx.setStorageSync(KEYS[name], value) }
 function today() { const d = new Date(Date.now() + 8 * 3600000); return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}` }
