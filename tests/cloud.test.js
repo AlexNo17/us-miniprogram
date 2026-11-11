@@ -16,6 +16,7 @@ async function run() {
   assert.strictEqual(calls, 0)
   user = 'alice'
   assert.strictEqual((await handle({ action: 'create', type: 'moment', data: { image: 'cloud://private' } })).error, 'INVALID_DATA')
+  assert.strictEqual((await handle({ action: 'create', type: 'moment', data: { image: 'cloud://cloud1-d0gnr8ygh74fddee2.bucket/private/test.jpg' } })).ok, true)
   const created = await handle({ action: 'create', type: 'moment', data: { title: 'hi' } })
   assert.strictEqual(created.record.version, 1)
   assert.strictEqual((await handle({ action: 'update', type: 'moment', id: created.record._id, version: 2, data: { title: 'stale' } })).error, 'CONFLICT_OR_NOT_FOUND')

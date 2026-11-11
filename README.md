@@ -35,9 +35,9 @@
 - 使用云端数据层替换本地缓存，支持同步与并发编辑冲突提示
 - 补齐图片云端上传、备份及失败重试
 
-当前数据仅保存在本机，不会在两个人之间同步；清理小程序数据或更换设备可能导致数据丢失。初始数据为空，旧版演示数据会保留，避免覆盖已有记录。
+云端接入正在测试：资料、文字、计划及照片的云端读写已接入，但真实手机、未授权账号和照片访问尚未完成完整验证。旧记录保留在本机，可手动复制；不要清理小程序数据或依赖测试版保存唯一一份重要资料。当前仅供单人测试，不支持另一位用户访问第一人的私有图片。
 
 ## 基础校验
 
-安装 Node.js 后，运行 `node tests/store.test.js` 和 `node tests/cloud.test.js` 检查日期、计划关联及云函数基础权限。云端部署准备见 [CLOUD_SETUP.md](CLOUD_SETUP.md)，前端目前仍使用本地数据。
+安装 Node.js 后，依次运行 `node tests/store.test.js`、`node tests/cloud.test.js`、`node tests/cloud-records.test.js`、`node tests/plans-cloud.test.js`、`node tests/moments-cloud.test.js`、`node tests/us-cloud.test.js`、`node tests/images-cloud.test.js` 和 `node tests/migration.test.js`。云端部署准备见 [CLOUD_SETUP.md](CLOUD_SETUP.md)。
 

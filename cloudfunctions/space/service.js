@@ -49,8 +49,9 @@ function validData(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   try {
     const serialized = JSON.stringify(value)
-    // Cloud file authorization is not implemented yet: reject file references.
-    return serialized.length <= MAX_LENGTH && !/cloud:\/\//i.test(serialized)
+    // Only files from this project's private environment may be referenced.
+    const links = serialized.match(/cloud:\/\/[^"\s]+/g) || []
+    return serialized.length <= MAX_LENGTH && links.every(link => /^cloud:\/\/cloud1-d0gnr8ygh74fddee2\.[a-z0-9-]+\/private\/[a-zA-Z0-9_./-]+$/.test(link))
   } catch (_) { return false }
 }
 module.exports = { createHandler }
