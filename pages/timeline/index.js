@@ -29,6 +29,7 @@ Page({
   removeImage(e) { const paths = this.data.form.images.slice(); paths.splice(Number(e.currentTarget.dataset.index), 1); this.setData({ 'form.images': paths }) },
   moveImage(e) { const paths = this.data.form.images.slice(); const i = Number(e.currentTarget.dataset.index); if (i > 0) { [paths[i - 1], paths[i]] = [paths[i], paths[i - 1]]; this.setData({ 'form.images': paths }) } },
   preview(e) { images.preview(this.data.detail.images || [], Number(e.currentTarget.dataset.index)) },
+  previewFeed(e) { const moment = this.data.moments.find(x => x.id === Number(e.currentTarget.dataset.id)); if (moment) images.preview(moment.images || [], Number(e.currentTarget.dataset.index)) },
   async save() {
     if (!this.data.cloudReady || this.data.busy) return
     const form = this.data.form; const title = (form.title || '').trim(); const content = (form.content || '').trim()

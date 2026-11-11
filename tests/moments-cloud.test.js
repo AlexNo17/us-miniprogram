@@ -9,7 +9,8 @@ cloud.call = async (action, input) => {
   return { ok: true }
 }
 const local = { love_moments: [{ id: 8, title: '原记录' }] }
-global.wx = { cloud: { uploadFile: async () => ({ fileID: 'cloud://cloud1-d0gnr8ygh74fddee2.bucket/private/test.jpg' }) }, getStorageSync: key => local[key] || '', setStorageSync: (key, value) => { local[key] = value }, removeStorageSync: key => delete local[key], showToast: () => {}, showModal: () => {} }
+let preview
+global.wx = { cloud: { uploadFile: async () => ({ fileID: 'cloud://cloud1-d0gnr8ygh74fddee2.bucket/private/test.jpg' }) }, getStorageSync: key => local[key] || '', setStorageSync: (key, value) => { local[key] = value }, removeStorageSync: key => delete local[key], showToast: () => {}, showModal: () => {}, previewImage: value => { preview = value } }
 let page
 global.Page = value => { page = value }
 require('../pages/timeline/index')
@@ -18,6 +19,10 @@ async function run() {
   await page.onShow()
   assert.strictEqual(page.data.cloudReady, true)
   assert.strictEqual(local.love_moments[0].title, '原记录')
+  page.setData({ moments: [{ id: 42, images: ['first', 'second', 'third'] }] })
+  page.previewFeed({ currentTarget: { dataset: { id: 42, index: 1 } } })
+  assert.deepStrictEqual(preview, { current: 'second', urls: ['first', 'second', 'third'] })
+  page.setData({ moments: [] })
   const form = { title: '云端回忆', content: '文字', category: '电影', images: [], date: '' }
   page.setData({ form, showForm: true })
   fail = true
