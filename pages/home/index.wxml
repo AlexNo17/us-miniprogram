@@ -6,10 +6,6 @@
     <view class="date" wx:if="{{days}}">从 {{profile.startDate}} 开始</view>
     <view class="date setup" wx:else bindtap="goUs">{{profileError ? '查看连接状态 →' : '去设置恋爱日期 →'}}</view>
   </view>
-  <view class="card anniversary row space-between">
-    <view><view class="pill">下一个纪念日</view><view class="anniv-title">{{anniversary ? '我们的纪念日' : '设置一个特别的日子'}}</view></view>
-    <view class="count" wx:if="{{anniversary}}"><text>{{anniversary.days}}</text> 天</view><view wx:else bindtap="goUs">设置 ›</view>
-  </view>
   <view class="quick row">
     <view class="quick-item" bindtap="goTimeline"><text>✎</text><view>记录今天</view></view>
     <view class="quick-item" bindtap="goPlans"><text>☆</text><view>新的计划</view></view>
